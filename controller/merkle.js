@@ -28,7 +28,7 @@ async function checkMerkleAddress(userWalletAddress) {
 
   if (whitelist.includes(userWalletAddress)) {
     
-    const { keccak256 } = ethers.utils
+    const keccak256 = web3.utils.keccak256;
     let leaves = whitelist.map((addr) => keccak256(addr))
     const merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true })
     
