@@ -1,31 +1,33 @@
 const { v4: uuidv4 } = require('uuid');
-const { Users } = require('../models/users');
+const users = require('../models').users;
 
 async function readWhitelist() {
-    const users = await Users.findAll()
+    const allUsers = await users.findAll()
         .then((users) => {
             console.log(users)
         });
 
-    return users;
+    return allUsers;
 }
 
 async function addWhitelist(name, address) {
-    const users = await Users.create({
-        id: uuidv4(),
+    userId = uuidv4();
+
+    const newUser = await users.create({
+        id: userId,
         name,
         address
     })
         .then(() => {
             console.log("User created");
         })
+        .catch(error => console.error(error));
 
-    return users;
+    return newUser;
 }
 
-
 async function setWhitelist(id, name, address) {
-    const user = Users.update({ name, address }, {
+    const user = users.update({ name, address }, {
         where: {
             id
         }
@@ -37,9 +39,8 @@ async function setWhitelist(id, name, address) {
     return user;
 }
 
-
 async function deleteWhitelist(id) {
-    const user = await Users.destory({
+    const user = await users.destory({
         where: {
             id
         }

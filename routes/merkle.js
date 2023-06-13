@@ -1,21 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const { generateMerkleTree, checkMerkleAddress } = require('../controller/merkle');
+const { generateMerkleTree, proofAddress } = require('../controller/merkle');
 
+router.get('/', async function (req, res, next) {
+    try {
+        const merkle = await generateMerkleTree();
 
-router.get('/merkle', function (req, res, next) {
-    
-    const merkle = generateMerkleTree();
-    console.log(merkle);
-
-    res.send('ok');
+        res.json({ merkleRoot: merkle });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.toString() });
+    }
 });
 
-router.post('/merkle/check', function (req, res, next) {
-    const { userWalletAddress } = req.body;
+router.get('/proof', async function (req, res, next) {
+    try {
+        const { userWalletAddress } = req.body;
+        const proof = await proofAddress(userWalletAddress);
 
-    const proof = checkMerkleAddress(userWalletAddress);
-    console.log(proof);
-
-    res.send('ok');
+        res.json({ merkleProof: proof });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.toString() });
+    }
 });
+
+module.exports = router;

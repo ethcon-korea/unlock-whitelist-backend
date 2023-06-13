@@ -3,35 +3,51 @@ const router = express.Router();
 const { readWhitelist, addWhitelist, setWhitelist, deleteWhitelist } = require('../controller/whitelist');
 
 
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res) {
+  try {
+    const whitelist = await readWhitelist();
 
-  readWhitelist();
-
-  res.send('ok');
+    res.json({ whitelist });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.toString() });
+  }
 });
 
-router.post('/add', function (req, res, next) {
+router.post('/add', async function (req, res) {
   const { name, address } = req.body;
+  try {
+    const newUser = await addWhitelist(name, address);
 
-  addWhitelist(name, address);
-
-  res.send('ok');
+    res.json({ user: newUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.toString() });
+  }
 });
 
-router.put('/', function (req, res, next) {
+router.put('/', async function (req, res) {
   const { id, name, address } = req.body;
+  try {
+    const updatedUser = await setWhitelist(id, name, address);
 
-  setWhitelist(id, name, address);
-
-  res.send('ok');
+    res.json({ user: updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.toString() });
+  }
 });
 
-router.delete('/', function (req, res, next) {
+router.delete('/', async function (req, res) {
   const { id } = req.body;
+  try {
+    const deletedUser = await deleteWhitelist(id);
 
-  deleteWhitelist(id);
-
-  res.send('ok');
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.toString() });
+  }
 });
 
 module.exports = router;
