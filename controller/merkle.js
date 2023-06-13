@@ -1,10 +1,10 @@
 const web3 = require('web3');
-const { MerkleTree } = require('merkletreejs')
-
+const { MerkleTree } = require('merkletreejs');
+const users = require('../models').users;
 
 async function generateMerkleTree() {
 
-  const whitelist = await Users.findAll()
+  const whitelist = await users.findAll()
     .then((users) => {
       console.log(users)
     });
@@ -19,7 +19,7 @@ async function generateMerkleTree() {
 
 async function checkMerkleAddress(userWalletAddress) {
 
-  const whitelist = await Users.findAll()
+  const whitelist = await users.findAll()
     .then((users) => {
       console.log(users)
     });

@@ -3,7 +3,7 @@ const router = express.Router();
 const { generateMerkleTree, checkMerkleAddress } = require('../controller/merkle');
 
 
-router.get('/merkle', function (req, res, next) {
+router.get('/', function (req, res, next) {
     
     const merkle = generateMerkleTree();
     console.log(merkle);
@@ -11,7 +11,7 @@ router.get('/merkle', function (req, res, next) {
     res.send('ok');
 });
 
-router.post('/merkle/check', function (req, res, next) {
+router.get('/check', function (req, res, next) {
     const { userWalletAddress } = req.body;
 
     const proof = checkMerkleAddress(userWalletAddress);
@@ -19,3 +19,5 @@ router.post('/merkle/check', function (req, res, next) {
 
     res.send('ok');
 });
+
+module.exports = router;

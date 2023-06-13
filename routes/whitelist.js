@@ -3,14 +3,14 @@ const router = express.Router();
 const { readWhitelist, addWhitelist, setWhitelist, deleteWhitelist } = require('../controller/whitelist');
 
 
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
 
   readWhitelist();
 
   res.send('ok');
 });
 
-router.post('/add', function (req, res, next) {
+router.post('/add', async function (req, res, next) {
   const { name, address } = req.body;
 
   addWhitelist(name, address);
@@ -18,7 +18,7 @@ router.post('/add', function (req, res, next) {
   res.send('ok');
 });
 
-router.put('/', function (req, res, next) {
+router.put('/', async function (req, res, next) {
   const { id, name, address } = req.body;
 
   setWhitelist(id, name, address);
@@ -26,7 +26,7 @@ router.put('/', function (req, res, next) {
   res.send('ok');
 });
 
-router.delete('/', function (req, res, next) {
+router.delete('/', async function (req, res, next) {
   const { id } = req.body;
 
   deleteWhitelist(id);
