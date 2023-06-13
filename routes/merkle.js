@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateMerkleTree, checkMerkleAddress } = require('../controller/merkle');
+const { generateMerkleTree, proofAddress } = require('../controller/merkle');
 
 router.get('/', async function (req, res, next) {
     try {
@@ -13,10 +13,10 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-router.get('/check', async function (req, res, next) {
+router.get('/proof', async function (req, res, next) {
     try {
         const { userWalletAddress } = req.body;
-        const proof = await checkMerkleAddress(userWalletAddress);
+        const proof = await proofAddress(userWalletAddress);
 
         res.json({ merkleProof: proof });
     } catch (err) {
@@ -24,7 +24,5 @@ router.get('/check', async function (req, res, next) {
         res.status(500).json({ error: err.toString() });
     }
 });
-
-
 
 module.exports = router;

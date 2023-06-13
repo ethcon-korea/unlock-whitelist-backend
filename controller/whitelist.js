@@ -26,7 +26,6 @@ async function addWhitelist(name, address) {
     return newUser;
 }
 
-
 async function setWhitelist(id, name, address) {
     const user = users.update({ name, address }, {
         where: {
@@ -39,7 +38,6 @@ async function setWhitelist(id, name, address) {
 
     return user;
 }
-
 
 async function deleteWhitelist(id) {
     const user = await users.destory({
